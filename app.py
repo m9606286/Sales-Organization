@@ -46,11 +46,8 @@ for _, row in df_filtered.iterrows():
     if pd.notna(row["直屬身分證字號"]):
         G.add_edge(row["直屬身分證字號"], row["身分證字號"])
 
-# fallback 排版，不依賴 pygraphviz
-try:
-    pos = nx.nx_agraph.graphviz_layout(G, prog="dot")
-except:
-    pos = nx.spring_layout(G)
+# fallback 排版，完全不用 Graphviz
+pos = nx.spring_layout(G, seed=42)
 
 labels = nx.get_node_attributes(G, "label")
 plt.figure(figsize=(12, 6))
